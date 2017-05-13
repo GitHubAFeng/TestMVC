@@ -1,0 +1,61 @@
+﻿
+@{
+    Layout = null;
+}
+
+@model IEnumerable<TestMvc.Models.SysUser>
+
+<!DOCTYPE html>
+
+
+@*DisplayNameFor (model=>model.xxx) 生成纯文本，显示xxx列名
+
+DisplayFor (model=>model.xxx) 生成纯文本，显示xxx列的内容
+
+LableFor  生成一个Lable标签
+
+EditorFor  生成一个text类型的input
+
+PasswordFor  类似于EditorFor, 隐藏文本内容
+
+ActionLink  生成一个<a>标签
+
+BeginForm  生成一个表单*@
+
+
+    <html>
+    <head>
+        <meta name="viewport" content="width=device-width" />
+        <title>Index</title>
+    </head>
+    <body>
+        <div>
+            <table>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(t => t.UserName);
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(t => t.Email);
+                    </th>
+                    <th></th>
+                </tr>
+                @foreach(var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(t=> item.UserName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(t => item.Email)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Details", "Edit", new { id = item.ID })
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    </body>
+</html>
