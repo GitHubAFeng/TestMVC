@@ -1,20 +1,24 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
-using TestMvc.DAL;
-using TestMvc.Models;
+
 
 namespace TestMvc.Controllers
 {
     public class AccountController : Controller
     {
-        private AccountContext db = new AccountContext();
 
         // GET: Account
         public ActionResult Index()
         {
+            List<SysUser> users = null;
+            using (var db = new testmvcEntities())
+            {
+                users = db.SysUser.ToList();
+            }
             //传递数据给视图
-            return View(db.SysUsers);
+            return View(users);
         }
 
 
@@ -31,18 +35,20 @@ namespace TestMvc.Controllers
             string email = fc["inputEmail3"];
             string password = fc["inputPassword3"];
 
-            var user = db.SysUsers.Where(t => t.Email == email && t.Password == password).FirstOrDefault();
-
-            if (user != null)
+            using (var db = new testmvcEntities())
             {
-                //登录后
-                ViewBag.LoginState = email + "登录后";
-            }
-            else
-            {
-                ViewBag.LoginState = email + "此用户不存在……";
-            }
+                var user = db.SysUser.AsNoTracking().Where(t => t.Email == email && t.Password == password).FirstOrDefault();
 
+                if (user != null)
+                {
+                    //登录后
+                    ViewBag.LoginState = email + "登录后";
+                }
+                else
+                {
+                    ViewBag.LoginState = email + "此用户不存在……";
+                }
+            }
 
             return View();
         }
@@ -68,20 +74,26 @@ namespace TestMvc.Controllers
         [HttpPost]
         public ActionResult Create(SysUser sysUser)
         {
+            using (var db = new testmvcEntities())
+            {
+                db.SysUser.Add(sysUser);
+                db.SaveChanges();
+            }
 
-            db.SysUsers.Add(sysUser);
-
-            db.SaveChanges();
 
             return RedirectToAction("Index");
 
         }
 
         //修改用户
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-
-            SysUser sysUser = db.SysUsers.Find(id);
+            if (!id.HasValue) return View("没有值");
+            SysUser sysUser = null;
+            using (var db = new testmvcEntities())
+            {
+                sysUser = db.SysUser.Find(id);
+            }
 
             return View(sysUser);
 
@@ -90,10 +102,13 @@ namespace TestMvc.Controllers
         [HttpPost]
         public ActionResult Edit(SysUser sysUser)
         {
+            using (var db = new testmvcEntities())
+            {
+                db.Entry(sysUser).State = EntityState.Modified;
 
-            db.Entry(sysUser).State = EntityState.Modified;
+                db.SaveChanges();
+            }
 
-            db.SaveChanges();
 
             return RedirectToAction("Index");
 
@@ -104,8 +119,11 @@ namespace TestMvc.Controllers
         //删除用户
         public ActionResult Delete(int id)
         {
-
-            SysUser sysUser = db.SysUsers.Find(id);
+            SysUser sysUser = null;
+            using (var db = new testmvcEntities())
+            {
+                 sysUser = db.SysUser.Find(id);
+            }
 
             return View(sysUser);
 
@@ -114,12 +132,14 @@ namespace TestMvc.Controllers
         [HttpPost, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
+            using (var db = new testmvcEntities())
+            {
+                SysUser sysUser = db.SysUser.Find(id);
 
-            SysUser sysUser = db.SysUsers.Find(id);
+                db.SysUser.Remove(sysUser);
 
-            db.SysUsers.Remove(sysUser);
-
-            db.SaveChanges();
+                db.SaveChanges();
+            }
 
             return RedirectToAction("Index");
 

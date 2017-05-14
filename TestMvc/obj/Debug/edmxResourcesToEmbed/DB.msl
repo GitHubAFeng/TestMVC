@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="testmvcModelStoreContainer" CdmEntityContainer="testmvcEntities">
+    <EntitySetMapping Name="SysRole">
+      <EntityTypeMapping TypeName="testmvcModel.SysRole">
+        <MappingFragment StoreEntitySet="SysRole">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+          <ScalarProperty Name="RoleDesc" ColumnName="RoleDesc" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SysUser">
+      <EntityTypeMapping TypeName="testmvcModel.SysUser">
+        <MappingFragment StoreEntitySet="SysUser">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="Email" ColumnName="Email" />
+          <ScalarProperty Name="Password" ColumnName="Password" />
+          <ScalarProperty Name="ctime" ColumnName="ctime" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SysUserRole">
+      <EntityTypeMapping TypeName="testmvcModel.SysUserRole">
+        <MappingFragment StoreEntitySet="SysUserRole">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="SysUserID" ColumnName="SysUserID" />
+          <ScalarProperty Name="SysRoleID" ColumnName="SysRoleID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

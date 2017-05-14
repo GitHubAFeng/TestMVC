@@ -76,3 +76,4 @@ D:\vsdemo\TestMvc\TestMvc\bin\EntityFramework.dll
 D:\vsdemo\TestMvc\TestMvc\bin\EntityFramework.SqlServer.dll
 D:\vsdemo\TestMvc\TestMvc\bin\EntityFramework.xml
 D:\vsdemo\TestMvc\TestMvc\bin\EntityFramework.SqlServer.xml
+D:\vsdemo\TestMvc\TestMvc\bin\zh-Hans\EntityFramework.resources.dll
